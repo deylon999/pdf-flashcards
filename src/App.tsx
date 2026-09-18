@@ -1,7 +1,16 @@
+import type { Card } from './types';
+
 export function App() {
   const name = 'Ваше имя';
   const age = 25;
   const movies = ['Матрица', 'Интерстеллар', 'Бойцовский клуб', 'Начало'];
+
+  const card: Card = {
+        id: '1',
+        question: 'Что такое DOM?',
+        answer: 'Дерево элементов',
+        learned: false,
+      };  
 
   return (
     <div>

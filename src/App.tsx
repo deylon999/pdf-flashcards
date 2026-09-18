@@ -1,11 +1,12 @@
-import { DeckList } from './components/DeckList';
-import { decks } from './mocks/decks';
+import { Routes, Route } from 'react-router-dom';
+import { HomePage } from './pages/HomePage';
+import { StatsPage } from './pages/StatsPage';
 
 export function App() {
   return (
-    <div>
-      <h1>Карточки</h1>
-      <DeckList decks={decks} />
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/stats" element={<StatsPage />} />
+    </Routes>
   );
 }

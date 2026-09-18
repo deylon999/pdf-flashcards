@@ -1,26 +1,25 @@
 import type { Card } from './types';
+import { CardItem } from './components/CardItem';
 
 export function App() {
-  const name = 'Ваше имя';
-  const age = 25;
-  const movies = ['Матрица', 'Интерстеллар', 'Бойцовский клуб', 'Начало'];
-
   const card: Card = {
         id: '1',
         question: 'Что такое DOM?',
         answer: 'Дерево элементов',
         learned: false,
-      };  
+      };
+      
+  const card2: Card = {
+    id: '2',
+    question: 'Что такое пропс?',
+    answer: 'Данные, которые передают компоненту снаружи',
+    learned: false,
+  };
 
   return (
     <div>
-      <h1>Карточки</h1>
-      <p>Меня зовут: {name}</p>
-      <p>Через 10 лет мне будет: {age+10}</p>
-      <ul>
-        {movies.map(movie => <li key={movie}>{movie}</li>)}
-      </ul>
-      <p>{age >= 18 ? 'Совершеннолетний' : 'Несовершеннолетний'}</p>
+      <CardItem card={card} /> 
+      <CardItem card={card2} />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { Button, Typography } from '@mui/material';
 import { decks } from '../mocks/decks';
 import { CardForm } from '../components/CardForm';
 import { CardItem } from '../components/CardItem';
+import { Trainer } from '../components/Trainer';
 import type { Card } from '../types';
 
 export function DeckPage() {
@@ -42,6 +43,7 @@ export function DeckPage() {
       <Typography color="text.secondary" gutterBottom>
         {deck.description}
       </Typography>
+      <Trainer cards={cards} />
       <CardForm onAdd={addCard} />
       {cards.map(card => (
         <CardItem key={card.id} card={card} />

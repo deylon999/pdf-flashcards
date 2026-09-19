@@ -12,6 +12,17 @@ export function StatsPage() {
   const total = decks.reduce((sum, deck) => sum + deck.cards.length, 0);
   const learned = decks.reduce((sum, deck) => sum + deck.cards.filter(card => card.learned).length, 0);
 
+  if (total === 0) {
+    return (
+      <>
+        <Typography variant="h4" gutterBottom>
+          Статистика
+        </Typography>
+        <Typography color="text.secondary">Пока нечего считать — нет ни одной карточки</Typography>
+      </>
+    );
+  }
+
   return (
     <>
       <Typography variant="h4" gutterBottom>

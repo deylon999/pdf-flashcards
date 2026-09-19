@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
 import { decks } from '../mocks/decks';
 import { CardForm } from '../components/CardForm';
@@ -19,7 +19,16 @@ export function DeckPage() {
   }, [id]);
 
   if (!deck) {
-    return <Typography>Такой колоды нет</Typography>;
+    return (
+      <>
+        <Typography variant="h4" gutterBottom>
+          Колода не найдена
+        </Typography>
+        <Button component={Link} to="/" variant="contained" sx={{ mt: 2 }}>
+          На главную
+        </Button>
+      </>
+    );
   }
 
   function addCard(question: string, answer: string) {
@@ -43,11 +52,13 @@ export function DeckPage() {
       <Typography color="text.secondary" gutterBottom>
         {deck.description}
       </Typography>
-      <Trainer cards={cards} />
+      <Trainer key={id} cards={cards} />
       <CardForm onAdd={addCard} />
-      {cards.map(card => (
-        <CardItem key={card.id} card={card} />
-      ))}
+      {cards.length === 0 ? (
+        <Typography color="text.secondary">Тут пусто, добавь первую карточку</Typography>
+      ) : (
+        cards.map(card => <CardItem key={card.id} card={card} />)
+      )}
     </>
   );
 }

@@ -6,7 +6,7 @@ export function Layout() {
     <Box>
       <AppBar position="static" elevation={0} sx={{ bgcolor: 'background.paper', borderBottom: 1, borderColor: 'divider' }}>
         <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" sx={{ flexGrow: 1, fontSize: { xs: '1rem', sm: '1.25rem' } }}>
             Карточки
           </Typography>
           <Button component={NavLink} to="/" end color="inherit" sx={{ '&.active': { color: 'primary.main' } }}>
@@ -17,7 +17,7 @@ export function Layout() {
           </Button>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="md" sx={{ py: 4 }}>
+      <Container maxWidth="md" sx={{ py: { xs: 3, sm: 4 }, px: { xs: 2, sm: 3 } }}>
         <Outlet />
       </Container>
     </Box>

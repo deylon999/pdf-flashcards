@@ -51,12 +51,12 @@ export function Trainer({ cards }: Props) {
         <Typography variant="body2" color="text.secondary" gutterBottom>
           Карточка {index + 1} из {cards.length}
         </Typography>
-        <Typography variant="h5" sx={{ minHeight: 64 }}>
+        <Typography variant="h5" sx={{ minHeight: { xs: 48, sm: 64 } }}>
           {showAnswer ? card.answer : card.question}
         </Typography>
       </CardContent>
       <CardActions>
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
           {showAnswer ? (
             <Button variant="contained" onClick={next}>
               Дальше

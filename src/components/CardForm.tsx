@@ -20,7 +20,7 @@ export function CardForm({ onAdd }: Props) {
   }
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', gap: 2, mb: 3, flexWrap: 'wrap' }}>
+    <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mb: 3 }}>
       <TextField
         label="Вопрос"
         size="small"

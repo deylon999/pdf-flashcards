@@ -13,9 +13,18 @@ export const theme = createTheme({
     h1: { fontWeight: 300 },
     h2: { fontWeight: 300 },
     h3: { fontWeight: 300 },
-    h4: { fontWeight: 300 },
-    h5: { fontWeight: 300 },
+    h4: {
+      fontWeight: 300,
+      fontSize: '2.125rem',
+      '@media (max-width:600px)': { fontSize: '1.6rem' },
+    },
+    h5: {
+      fontWeight: 300,
+      '@media (max-width:600px)': { fontSize: '1.25rem' },
+    },
     h6: { fontWeight: 300 },
+    body1: { lineHeight: 1.7 },
+    body2: { lineHeight: 1.6 },
   },
   shape: { borderRadius: 14 },
   components: {

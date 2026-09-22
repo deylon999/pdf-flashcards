@@ -15,7 +15,7 @@ export function StatsPage() {
   if (total === 0) {
     return (
       <>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom> 
           Статистика
         </Typography>
         <Typography color="text.secondary">Пока нечего считать — нет ни одной карточки</Typography>

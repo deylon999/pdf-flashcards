@@ -6,3 +6,7 @@ dist/
 .idea/
 tsconfig.tsbuildinfo
 методичка.pdf
+
+.venv/
+__pycache__/
+*.pyc

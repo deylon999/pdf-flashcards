@@ -29,6 +29,7 @@ React 19 + TypeScript, Vite, React Router, MUI.
 ## Запуск
 
 ```
+cd frontend
 npm install
 npm run dev
 ```
@@ -44,14 +45,17 @@ npm run build
 ## Структура
 
 ```
-src/
-  components/    Layout, DeckList, CardItem, CardForm, Trainer
-  pages/         HomePage, DeckPage, StatsPage, NotFoundPage
-  mocks/         decks.ts — колоды с карточками
-  types.ts       типы Card и Deck
-  theme.ts       тёмная тема MUI
-  App.tsx        роуты
-  main.tsx       точка входа
+frontend/          React + TypeScript
+  src/
+    components/    Layout, DeckList, CardItem, CardForm, Trainer
+    pages/         HomePage, DeckPage, StatsPage, NotFoundPage
+    mocks/         decks.ts — колоды с карточками
+    types.ts       типы Card и Deck
+    theme.ts       тёмная тема MUI
+    App.tsx        роуты
+    main.tsx       точка входа
+backend/           FastAPI + PostgreSQL
+docs/screenshots/  скриншоты экранов
 ```
 
 ## Скриншоты

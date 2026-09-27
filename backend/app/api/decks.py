@@ -1,8 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app import crud
+from app.api.deps import get_deck_or_404
 from app.db.database import get_db
+from app.models import Deck
 from app.schemas import DeckCreate, DeckRead, DeckUpdate, DeckWithCards
 
 router = APIRouter(prefix="/decks", tags=["decks"])
@@ -19,24 +21,19 @@ def create_deck(data: DeckCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/{deck_id}", response_model=DeckWithCards)
-def read_deck(deck_id: int, db: Session = Depends(get_db)):
-    deck = crud.get_deck(db, deck_id)
-    if deck is None:
-        raise HTTPException(status_code=404, detail="Колода не найдена")
+def read_deck(deck: Deck = Depends(get_deck_or_404)):
     return deck
 
 
 @router.patch("/{deck_id}", response_model=DeckRead)
-def update_deck(deck_id: int, data: DeckUpdate, db: Session = Depends(get_db)):
-    deck = crud.get_deck(db, deck_id)
-    if deck is None:
-        raise HTTPException(status_code=404, detail="Колода не найдена")
+def update_deck(
+    data: DeckUpdate,
+    deck: Deck = Depends(get_deck_or_404),
+    db: Session = Depends(get_db),
+):
     return crud.update_deck(db, deck, data)
 
 
 @router.delete("/{deck_id}", status_code=204)
-def delete_deck(deck_id: int, db: Session = Depends(get_db)):
-    deck = crud.get_deck(db, deck_id)
-    if deck is None:
-        raise HTTPException(status_code=404, detail="Колода не найдена")
+def delete_deck(deck: Deck = Depends(get_deck_or_404), db: Session = Depends(get_db)):
     crud.delete_deck(db, deck)

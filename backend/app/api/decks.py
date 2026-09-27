@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app import crud
 from app.db.database import get_db
-from app.schemas import DeckCreate, DeckRead, DeckWithCards
+from app.schemas import DeckCreate, DeckRead, DeckUpdate, DeckWithCards
 
 router = APIRouter(prefix="/decks", tags=["decks"])
 
@@ -24,3 +24,19 @@ def read_deck(deck_id: int, db: Session = Depends(get_db)):
     if deck is None:
         raise HTTPException(status_code=404, detail="Колода не найдена")
     return deck
+
+
+@router.patch("/{deck_id}", response_model=DeckRead)
+def update_deck(deck_id: int, data: DeckUpdate, db: Session = Depends(get_db)):
+    deck = crud.get_deck(db, deck_id)
+    if deck is None:
+        raise HTTPException(status_code=404, detail="Колода не найдена")
+    return crud.update_deck(db, deck, data)
+
+
+@router.delete("/{deck_id}", status_code=204)
+def delete_deck(deck_id: int, db: Session = Depends(get_db)):
+    deck = crud.get_deck(db, deck_id)
+    if deck is None:
+        raise HTTPException(status_code=404, detail="Колода не найдена")
+    crud.delete_deck(db, deck)

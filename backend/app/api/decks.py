@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app import crud
 from app.db.database import get_db
-from app.schemas import DeckRead, DeckWithCards
+from app.schemas import DeckCreate, DeckRead, DeckWithCards
 
 router = APIRouter(prefix="/decks", tags=["decks"])
 
@@ -11,6 +11,11 @@ router = APIRouter(prefix="/decks", tags=["decks"])
 @router.get("", response_model=list[DeckRead])
 def read_decks(db: Session = Depends(get_db)):
     return crud.get_decks(db)
+
+
+@router.post("", response_model=DeckRead, status_code=201)
+def create_deck(data: DeckCreate, db: Session = Depends(get_db)):
+    return crud.create_deck(db, data)
 
 
 @router.get("/{deck_id}", response_model=DeckWithCards)

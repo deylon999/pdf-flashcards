@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 
-from app.api import decks
+from app.api import cards, decks
 
 app = FastAPI(title="Flashcards API")
 
 app.include_router(decks.router)
+app.include_router(cards.router)
 
 
 @app.get("/health")

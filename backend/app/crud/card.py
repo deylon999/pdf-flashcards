@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models import Card
-from app.schemas import CardCreate
+from app.schemas import CardCreate, CardUpdate
 
 
 def get_cards(db: Session, deck_id: int) -> list[Card]:
@@ -20,3 +20,16 @@ def create_card(db: Session, deck_id: int, data: CardCreate) -> Card:
     db.commit()
     db.refresh(card)
     return card
+
+
+def update_card(db: Session, card: Card, data: CardUpdate) -> Card:
+    for key, value in data.model_dump(exclude_none=True).items():
+        setattr(card, key, value)
+    db.commit()
+    db.refresh(card)
+    return card
+
+
+def delete_card(db: Session, card: Card) -> None:
+    db.delete(card)
+    db.commit()

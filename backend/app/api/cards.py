@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app import crud
@@ -30,6 +30,8 @@ def update_card(
     card: Card = Depends(get_card_or_404),
     db: Session = Depends(get_db),
 ):
+    if not data.model_dump(exclude_none=True):
+        raise HTTPException(status_code=400, detail="Нет полей для изменения")
     return crud.update_card(db, card, data)
 
 

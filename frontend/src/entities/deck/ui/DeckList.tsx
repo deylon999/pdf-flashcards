@@ -9,7 +9,7 @@ type Props = {
 
 export function DeckList({ decks }: Props) {
   if (decks.length === 0) {
-    return <EmptyState>Колод пока нет</EmptyState>;
+    return <EmptyState>Колод пока нет, создай первую</EmptyState>;
   }
 
   return (

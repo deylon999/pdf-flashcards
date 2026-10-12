@@ -1,5 +1,6 @@
-import { useReducer, type ReactNode } from 'react';
-import { decks as initialDecks } from '../api/mock';
+import { useEffect, useReducer, useState, type ReactNode } from 'react';
+import type { LoadStatus } from '@/shared/api';
+import { fetchDecks } from '../api/deckApi';
 import { DecksContext, type DecksContextValue } from './DecksContext';
 import { decksReducer } from './decksReducer';
 
@@ -8,10 +9,27 @@ type Props = {
 };
 
 export function DecksProvider({ children }: Props) {
-  const [decks, dispatch] = useReducer(decksReducer, initialDecks);
+  const [decks, dispatch] = useReducer(decksReducer, []);
+  const [status, setStatus] = useState<LoadStatus>('loading');
+
+  function load() {
+    setStatus('loading');
+    fetchDecks()
+      .then(loaded => {
+        dispatch({ type: 'loaded', decks: loaded });
+        setStatus('ready');
+      })
+      .catch(() => setStatus('error'));
+  }
+
+  useEffect(() => {
+    load();
+  }, []);
 
   const value: DecksContextValue = {
     decks,
+    status,
+    reload: load,
     addDeck: (title, description) =>
       dispatch({ type: 'addDeck', deck: { id: String(Date.now()), title, description, cards: [] } }),
     addCard: (deckId, question, answer) =>

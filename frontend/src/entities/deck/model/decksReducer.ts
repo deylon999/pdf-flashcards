@@ -2,6 +2,7 @@ import type { Card } from '@/entities/card';
 import type { Deck } from './types';
 
 export type DecksAction =
+  | { type: 'loaded'; decks: Deck[] }
   | { type: 'addDeck'; deck: Deck }
   | { type: 'addCard'; deckId: string; card: Card }
   | { type: 'toggleLearned'; deckId: string; cardId: string }
@@ -13,6 +14,8 @@ function updateCards(decks: Deck[], deckId: string, update: (cards: Card[]) => C
 
 export function decksReducer(decks: Deck[], action: DecksAction): Deck[] {
   switch (action.type) {
+    case 'loaded':
+      return action.decks;
     case 'addDeck':
       return [...decks, action.deck];
     case 'addCard':

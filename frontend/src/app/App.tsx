@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
-import { Layout } from './components/Layout';
-import { HomePage } from './pages/HomePage';
-import { DeckPage } from './pages/DeckPage';
-import { StatsPage } from './pages/StatsPage';
-import { NotFoundPage } from './pages/NotFoundPage';
+import { Layout } from './Layout';
+import { HomePage } from '../pages/HomePage';
+import { DeckPage } from '../pages/DeckPage';
+import { StatsPage } from '../pages/StatsPage';
+import { NotFoundPage } from '../pages/NotFoundPage';
 
 export function App() {
   return (

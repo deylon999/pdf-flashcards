@@ -104,7 +104,7 @@ src/
     card/          тип Card и отображение карточки
     deck/          тип Deck, хранилище колод (context + useReducer), фейковый api на моках, список колод
   shared/        общий код без привязки к предметной области
-    ui/            EmptyState
+    ui/            EmptyState, Loader, ErrorMessage
     lib/           percent, delay
     api/           тип статуса загрузки
   main.tsx       точка входа

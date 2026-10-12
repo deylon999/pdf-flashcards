@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Box, Button, Card, CardActions, CardContent, Typography } from '@mui/material';
 import type { Card as CardData } from '@/entities/card';
+import { EmptyState } from '@/shared/ui';
 
 type Props = {
   cards: CardData[];
@@ -11,11 +12,7 @@ export function Trainer({ cards }: Props) {
   const [showAnswer, setShowAnswer] = useState(false);
 
   if (cards.length === 0) {
-    return (
-      <Typography color="text.secondary" sx={{ mb: 3 }}>
-        В колоде пока нет карточек
-      </Typography>
-    );
+    return <EmptyState sx={{ mb: 3 }}>В колоде пока нет карточек</EmptyState>;
   }
 
   if (index >= cards.length) {

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Card, CardActionArea, CardContent, Grid, Typography } from '@mui/material';
 import type { Deck } from '../model/types';
+import { EmptyState } from '@/shared/ui';
 
 type Props = {
   decks: Deck[];
@@ -8,7 +9,7 @@ type Props = {
 
 export function DeckList({ decks }: Props) {
   if (decks.length === 0) {
-    return <Typography color="text.secondary">Колод пока нет</Typography>;
+    return <EmptyState>Колод пока нет</EmptyState>;
   }
 
   return (

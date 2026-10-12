@@ -1,12 +1,7 @@
 import { Card, CardContent, LinearProgress, Typography } from '@mui/material';
 import { decks } from '@/entities/deck';
-
-function percent(learned: number, total: number) {
-  if (total === 0) {
-    return 0;
-  }
-  return Math.round((learned / total) * 100);
-}
+import { percent } from '@/shared/lib';
+import { EmptyState } from '@/shared/ui';
 
 export function StatsPage() {
   const total = decks.reduce((sum, deck) => sum + deck.cards.length, 0);
@@ -18,7 +13,7 @@ export function StatsPage() {
         <Typography variant="h4" gutterBottom> 
           Статистика
         </Typography>
-        <Typography color="text.secondary">Пока нечего считать — нет ни одной карточки</Typography>
+        <EmptyState>Пока нечего считать — нет ни одной карточки</EmptyState>
       </>
     );
   }

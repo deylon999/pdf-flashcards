@@ -6,6 +6,7 @@ import { CardView, type Card } from '@/entities/card';
 import { CardForm } from '@/features/add-card';
 import { Trainer } from '@/features/train-deck';
 import { ToggleLearnedButton } from '@/features/toggle-learned';
+import { EmptyState } from '@/shared/ui';
 
 export function DeckPage() {
   const { id } = useParams();
@@ -59,7 +60,7 @@ export function DeckPage() {
       <Trainer key={id} cards={cards} />
       <CardForm onAdd={addCard} />
       {cards.length === 0 ? (
-        <Typography color="text.secondary">Тут пусто, добавь первую карточку</Typography>
+        <EmptyState>Тут пусто, добавь первую карточку</EmptyState>
       ) : (
         cards.map(card => (
           <CardView

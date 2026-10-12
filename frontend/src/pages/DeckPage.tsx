@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
 import { decks } from '../entities/deck';
-import { CardForm } from '../components/CardForm';
-import { CardItem } from '../components/CardItem';
-import { Trainer } from '../components/Trainer';
-import type { Card } from '../entities/card';
+import { CardView, type Card } from '../entities/card';
+import { CardForm } from '../features/add-card';
+import { Trainer } from '../features/train-deck';
+import { ToggleLearnedButton } from '../features/toggle-learned';
 
 export function DeckPage() {
   const { id } = useParams();
@@ -41,6 +41,10 @@ export function DeckPage() {
     setCards([...cards, card]);
   }
 
+  function toggleLearned(cardId: string) {
+    setCards(cards.map(card => (card.id === cardId ? { ...card, learned: !card.learned } : card)));
+  }
+
   return (
     <>
       <Button onClick={() => navigate(-1)} sx={{ mb: 2 }}>
@@ -57,7 +61,13 @@ export function DeckPage() {
       {cards.length === 0 ? (
         <Typography color="text.secondary">Тут пусто, добавь первую карточку</Typography>
       ) : (
-        cards.map(card => <CardItem key={card.id} card={card} />)
+        cards.map(card => (
+          <CardView
+            key={card.id}
+            card={card}
+            actions={<ToggleLearnedButton learned={card.learned} onToggle={() => toggleLearned(card.id)} />}
+          />
+        ))
       )}
     </>
   );

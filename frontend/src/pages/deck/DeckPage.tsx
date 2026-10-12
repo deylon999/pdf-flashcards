@@ -1,16 +1,17 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useDecks } from '@/entities/deck';
 import { CardView } from '@/entities/card';
 import { CardForm } from '@/features/add-card';
 import { Trainer } from '@/features/train-deck';
 import { ToggleLearnedButton } from '@/features/toggle-learned';
+import { RemoveCardButton } from '@/features/remove-card';
 import { EmptyState } from '@/shared/ui';
 
 export function DeckPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { decks, addCard, toggleLearned } = useDecks();
+  const { decks, addCard, toggleLearned, removeCard } = useDecks();
   const deck = decks.find(deck => deck.id === id);
 
   if (!deck) {
@@ -48,7 +49,12 @@ export function DeckPage() {
           <CardView
             key={card.id}
             card={card}
-            actions={<ToggleLearnedButton learned={card.learned} onToggle={() => toggleLearned(deck.id, card.id)} />}
+            actions={
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <ToggleLearnedButton learned={card.learned} onToggle={() => toggleLearned(deck.id, card.id)} />
+                <RemoveCardButton onRemove={() => removeCard(deck.id, card.id)} />
+              </Box>
+            }
           />
         ))
       )}

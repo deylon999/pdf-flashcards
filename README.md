@@ -92,6 +92,7 @@ src/
     add-card/      форма добавления карточки
     train-deck/    тренажёр по колоде
     toggle-learned/ отметка «выучено»
+    remove-card/   удаление карточки
   entities/      сущности предметной области
     card/          тип Card и отображение карточки
     deck/          тип Deck, хранилище колод (context + useReducer), моки, список колод

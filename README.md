@@ -68,17 +68,44 @@ npm run build
 
 ```
 frontend/          React + TypeScript
-  src/
-    components/    Layout, DeckList, CardItem, CardForm, Trainer
-    pages/         HomePage, DeckPage, StatsPage, NotFoundPage
-    mocks/         decks.ts — колоды с карточками
-    types.ts       типы Card и Deck
-    theme.ts       тёмная тема MUI
-    App.tsx        роуты
-    main.tsx       точка входа
 backend/           FastAPI + PostgreSQL
 docs/screenshots/  скриншоты экранов
 ```
+
+### Frontend
+
+Код разложен по слоям упрощённого [Feature-Sliced Design](https://feature-sliced.design/). Полное FSD не соблюдается: нет слоя `widgets`, у сегментов только `ui`, `model` и `api`.
+
+```
+src/
+  app/           настройка приложения
+    App.tsx        роуты
+    Layout.tsx     шапка и навигация
+    providers.tsx  тема MUI и роутер
+    theme.ts       тёмная тема
+  pages/         страницы, собирают фичи и сущности
+    home/          список колод
+    deck/          колода: тренажёр, форма, карточки
+    stats/         статистика
+    not-found/     404
+  features/      действия пользователя
+    add-card/      форма добавления карточки
+    train-deck/    тренажёр по колоде
+    toggle-learned/ отметка «выучено»
+  entities/      сущности предметной области
+    card/          тип Card и отображение карточки
+    deck/          тип Deck, моковые данные, список колод
+  shared/        общий код без привязки к предметной области
+    ui/            EmptyState
+    lib/           percent
+  main.tsx       точка входа
+```
+
+Правила:
+
+- слой импортирует только из слоёв ниже: `app → pages → features → entities → shared`;
+- каждый модуль отдаёт наружу только то, что есть в его `index.ts`, импорты снаружи идут через него;
+- между слоями импорты через алиас `@/` (`@/entities/deck`), внутри модуля относительные.
 
 ## Скриншоты
 

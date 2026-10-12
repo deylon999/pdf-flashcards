@@ -3,6 +3,7 @@ import type { Deck } from './types';
 
 export type DecksContextValue = {
   decks: Deck[];
+  addDeck: (title: string, description: string) => void;
   addCard: (deckId: string, question: string, answer: string) => void;
   toggleLearned: (deckId: string, cardId: string) => void;
   removeCard: (deckId: string, cardId: string) => void;

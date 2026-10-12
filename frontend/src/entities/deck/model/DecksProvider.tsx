@@ -12,6 +12,8 @@ export function DecksProvider({ children }: Props) {
 
   const value: DecksContextValue = {
     decks,
+    addDeck: (title, description) =>
+      dispatch({ type: 'addDeck', deck: { id: String(Date.now()), title, description, cards: [] } }),
     addCard: (deckId, question, answer) =>
       dispatch({
         type: 'addCard',

@@ -1,9 +1,10 @@
 import { Card, CardContent, LinearProgress, Typography } from '@mui/material';
-import { decks } from '@/entities/deck';
+import { useDecks } from '@/entities/deck';
 import { percent } from '@/shared/lib';
 import { EmptyState } from '@/shared/ui';
 
 export function StatsPage() {
+  const { decks } = useDecks();
   const total = decks.reduce((sum, deck) => sum + deck.cards.length, 0);
   const learned = decks.reduce((sum, deck) => sum + deck.cards.filter(card => card.learned).length, 0);
 

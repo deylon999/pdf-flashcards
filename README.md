@@ -94,7 +94,7 @@ src/
     toggle-learned/ отметка «выучено»
   entities/      сущности предметной области
     card/          тип Card и отображение карточки
-    deck/          тип Deck, моковые данные, список колод
+    deck/          тип Deck, хранилище колод (context + useReducer), моки, список колод
   shared/        общий код без привязки к предметной области
     ui/            EmptyState
     lib/           percent

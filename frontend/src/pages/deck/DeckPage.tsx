@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
 import { useDecks } from '@/entities/deck';
 import { CardView } from '@/entities/card';
@@ -6,25 +6,24 @@ import { CardForm } from '@/features/add-card';
 import { Trainer } from '@/features/train-deck';
 import { ToggleLearnedButton } from '@/features/toggle-learned';
 import { RemoveCardButton } from '@/features/remove-card';
-import { EmptyState } from '@/shared/ui';
+import { EmptyState, ErrorMessage, Loader, NotFoundMessage } from '@/shared/ui';
 
 export function DeckPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { decks, addCard, toggleLearned, removeCard } = useDecks();
+  const { decks, status, reload, addCard, toggleLearned, removeCard } = useDecks();
   const deck = decks.find(deck => deck.id === id);
 
+  if (status === 'loading') {
+    return <Loader text="Загружаем колоду…" />;
+  }
+
+  if (status === 'error') {
+    return <ErrorMessage text="Не удалось загрузить колоду" onRetry={reload} />;
+  }
+
   if (!deck) {
-    return (
-      <>
-        <Typography variant="h4" gutterBottom>
-          Колода не найдена
-        </Typography>
-        <Button component={Link} to="/" variant="contained" sx={{ mt: 2 }}>
-          На главную
-        </Button>
-      </>
-    );
+    return <NotFoundMessage title="Колода не найдена" text="Возможно, её удалили или адрес набран с ошибкой" />;
   }
 
   const { cards } = deck;

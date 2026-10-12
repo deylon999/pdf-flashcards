@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { Card, CardActions, CardContent, Chip, Typography } from '@mui/material';
+import { FlipCard } from '@/shared/ui';
 import type { Card as CardData } from '../model/types';
 
 type Props = {
@@ -7,16 +8,28 @@ type Props = {
   actions?: ReactNode;
 };
 
+function Side({ label, text }: { label: string; text: string }) {
+  return (
+    <>
+      <Typography variant="body2" color="text.secondary" gutterBottom>
+        {label}
+      </Typography>
+      <Typography variant="h6">{text}</Typography>
+    </>
+  );
+}
+
 export function CardView({ card, actions }: Props) {
   const [flipped, setFlipped] = useState(false);
 
   return (
     <Card variant="outlined" sx={{ mb: 2, cursor: 'pointer' }} onClick={() => setFlipped(!flipped)}>
       <CardContent>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          {flipped ? 'Ответ' : 'Вопрос'}
-        </Typography>
-        <Typography variant="h6">{flipped ? card.answer : card.question}</Typography>
+        <FlipCard
+          flipped={flipped}
+          front={<Side label="Вопрос" text={card.question} />}
+          back={<Side label="Ответ" text={card.answer} />}
+        />
       </CardContent>
       <CardActions sx={{ justifyContent: 'space-between' }} onClick={e => e.stopPropagation()}>
         {actions}

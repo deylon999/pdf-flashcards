@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Box, Button, Card, CardActions, CardContent, Typography } from '@mui/material';
 import type { Card as CardData } from '@/entities/card';
-import { EmptyState } from '@/shared/ui';
+import { EmptyState, FlipCard } from '@/shared/ui';
 
 type Props = {
   cards: CardData[];
@@ -48,9 +48,13 @@ export function Trainer({ cards }: Props) {
         <Typography variant="body2" color="text.secondary" gutterBottom>
           Карточка {index + 1} из {cards.length}
         </Typography>
-        <Typography variant="h5" sx={{ minHeight: { xs: 48, sm: 64 } }}>
-          {showAnswer ? card.answer : card.question}
-        </Typography>
+        {/* key сбрасывает переворот при переходе к следующей карточке, чтобы не мелькал её ответ */}
+        <FlipCard
+          key={card.id}
+          flipped={showAnswer}
+          front={<Typography variant="h5" sx={{ minHeight: { xs: 48, sm: 64 } }}>{card.question}</Typography>}
+          back={<Typography variant="h5" sx={{ minHeight: { xs: 48, sm: 64 } }}>{card.answer}</Typography>}
+        />
       </CardContent>
       <CardActions>
         <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>

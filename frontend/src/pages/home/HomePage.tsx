@@ -15,7 +15,7 @@ export function HomePage() {
       {status === 'error' && <ErrorMessage text="Не удалось загрузить колоды" onRetry={reload} />}
       {status === 'ready' && (
         <>
-          <CreateDeckForm onCreate={addDeck} />
+          <CreateDeckForm existingTitles={decks.map(deck => deck.title)} onCreate={addDeck} />
           <DeckList decks={decks} />
         </>
       )}

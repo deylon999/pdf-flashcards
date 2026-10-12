@@ -1,7 +1,9 @@
-import { NavLink, Outlet } from 'react-router-dom';
-import { AppBar, Box, Button, Container, Toolbar, Typography } from '@mui/material';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { AppBar, Box, Button, Container, Fade, Toolbar, Typography } from '@mui/material';
 
 export function Layout() {
+  const location = useLocation();
+
   return (
     <Box>
       <AppBar position="static" elevation={0} sx={{ bgcolor: 'background.paper', borderBottom: 1, borderColor: 'divider' }}>
@@ -18,7 +20,12 @@ export function Layout() {
         </Toolbar>
       </AppBar>
       <Container maxWidth="md" sx={{ py: { xs: 3, sm: 4 }, px: { xs: 2, sm: 3 } }}>
-        <Outlet />
+        {/* key по адресу: при смене страницы содержимое плавно появляется заново */}
+        <Fade key={location.pathname} in appear timeout={300}>
+          <Box>
+            <Outlet />
+          </Box>
+        </Fade>
       </Container>
     </Box>
   );

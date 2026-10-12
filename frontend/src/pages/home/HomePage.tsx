@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { DeckList, useDecks } from '@/entities/deck';
 import { CreateDeckForm } from '@/features/create-deck';
-import { ErrorMessage, Loader } from '@/shared/ui';
+import { ErrorMessage, Loader, ToggleSection } from '@/shared/ui';
 
 export function HomePage() {
   const { decks, status, reload, addDeck } = useDecks();
@@ -15,7 +15,9 @@ export function HomePage() {
       {status === 'error' && <ErrorMessage text="Не удалось загрузить колоды" onRetry={reload} />}
       {status === 'ready' && (
         <>
-          <CreateDeckForm existingTitles={decks.map(deck => deck.title)} onCreate={addDeck} />
+          <ToggleSection openLabel="Новая колода">
+            <CreateDeckForm existingTitles={decks.map(deck => deck.title)} onCreate={addDeck} />
+          </ToggleSection>
           <DeckList decks={decks} />
         </>
       )}

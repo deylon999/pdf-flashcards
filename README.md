@@ -104,7 +104,8 @@ src/
     card/          тип Card и отображение карточки
     deck/          тип Deck, хранилище колод (context + useReducer), фейковый api на моках, список колод
   shared/        общий код без привязки к предметной области
-    ui/            EmptyState, Loader, ErrorMessage, NotFoundMessage, FlipCard
+    ui/            EmptyState, Loader, ErrorMessage, NotFoundMessage,
+                   FlipCard, AnimatedItem, ToggleSection
     lib/           percent, delay
     api/           тип статуса загрузки
   main.tsx       точка входа

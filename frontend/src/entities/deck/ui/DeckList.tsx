@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Card, CardActionArea, CardContent, Grid, Typography } from '@mui/material';
+import { Card, CardActionArea, CardContent, Grid, Grow, Typography } from '@mui/material';
 import type { Deck } from '../model/types';
 import { EmptyState } from '@/shared/ui';
 
@@ -14,23 +14,26 @@ export function DeckList({ decks }: Props) {
 
   return (
     <Grid container spacing={2}>
-      {decks.map(deck => (
+      {decks.map((deck, index) => (
         <Grid key={deck.id} size={{ xs: 12, sm: 6, md: 4 }}>
-          <Card variant="outlined" sx={{ height: '100%', '&:hover': { borderColor: 'primary.main' } }}>
-            <CardActionArea component={Link} to={`/decks/${deck.id}`} sx={{ height: '100%', p: 1 }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  {deck.title}
-                </Typography>
-                <Typography color="text.secondary" gutterBottom>
-                  {deck.description}
-                </Typography>
-                <Typography variant="body2" color="primary">
-                  Карточек: {deck.cards.length}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+          {/* колоды появляются по очереди, с небольшим сдвигом */}
+          <Grow in appear timeout={300 + index * 100}>
+            <Card variant="outlined" sx={{ height: '100%', '&:hover': { borderColor: 'primary.main' } }}>
+              <CardActionArea component={Link} to={`/decks/${deck.id}`} sx={{ height: '100%', p: 1 }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    {deck.title}
+                  </Typography>
+                  <Typography color="text.secondary" gutterBottom>
+                    {deck.description}
+                  </Typography>
+                  <Typography variant="body2" color="primary">
+                    Карточек: {deck.cards.length}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grow>
         </Grid>
       ))}
     </Grid>

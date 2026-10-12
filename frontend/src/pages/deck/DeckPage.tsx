@@ -40,7 +40,10 @@ export function DeckPage() {
         {deck.description}
       </Typography>
       <Trainer key={id} cards={cards} />
-      <CardForm onAdd={(question, answer) => addCard(deck.id, question, answer)} />
+      <CardForm
+        existingQuestions={cards.map(card => card.question)}
+        onAdd={(question, answer) => addCard(deck.id, question, answer)}
+      />
       {cards.length === 0 ? (
         <EmptyState>Тут пусто, добавь первую карточку</EmptyState>
       ) : (

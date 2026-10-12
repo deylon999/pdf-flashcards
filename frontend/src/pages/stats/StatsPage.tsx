@@ -1,5 +1,5 @@
 import { Card, CardContent, LinearProgress, Typography } from '@mui/material';
-import { decks } from '../../entities/deck';
+import { decks } from '@/entities/deck';
 
 function percent(learned: number, total: number) {
   if (total === 0) {

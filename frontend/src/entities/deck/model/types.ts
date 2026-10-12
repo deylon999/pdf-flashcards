@@ -1,4 +1,4 @@
-import type { Card } from '../../card';
+import type { Card } from '@/entities/card';
 
 export type Deck = {
   id: string;

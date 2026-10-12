@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import { DeckList, decks } from '../../entities/deck';
+import { DeckList, decks } from '@/entities/deck';
 
 export function HomePage() {
   return (

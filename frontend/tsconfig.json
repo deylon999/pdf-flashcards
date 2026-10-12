@@ -11,6 +11,9 @@
     "resolveJsonModule": true,
     "noEmit": true,
     "strict": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },

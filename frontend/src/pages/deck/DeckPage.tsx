@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
-import { decks } from '../../entities/deck';
-import { CardView, type Card } from '../../entities/card';
-import { CardForm } from '../../features/add-card';
-import { Trainer } from '../../features/train-deck';
-import { ToggleLearnedButton } from '../../features/toggle-learned';
+import { decks } from '@/entities/deck';
+import { CardView, type Card } from '@/entities/card';
+import { CardForm } from '@/features/add-card';
+import { Trainer } from '@/features/train-deck';
+import { ToggleLearnedButton } from '@/features/toggle-learned';
 
 export function DeckPage() {
   const { id } = useParams();

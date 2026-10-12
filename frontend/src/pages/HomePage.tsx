@@ -1,6 +1,5 @@
 import { Typography } from '@mui/material';
-import { DeckList } from '../components/DeckList';
-import { decks } from '../mocks/decks';
+import { DeckList, decks } from '../entities/deck';
 
 export function HomePage() {
   return (

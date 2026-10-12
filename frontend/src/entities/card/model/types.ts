@@ -4,10 +4,3 @@ export type Card = {
   answer: string;
   learned: boolean;
 };
-
-export type Deck = {
-  id: string;
-  title: string;
-  description: string;
-  cards: Card[];
-};

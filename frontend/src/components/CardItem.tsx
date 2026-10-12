@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Card, CardActions, CardContent, Chip, Typography } from '@mui/material';
-import type { Card as CardData } from '../types';
+import type { Card as CardData } from '../entities/card';
 
 type Props = {
   card: CardData;

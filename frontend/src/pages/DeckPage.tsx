@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Typography } from '@mui/material';
-import { decks } from '../mocks/decks';
+import { decks } from '../entities/deck';
 import { CardForm } from '../components/CardForm';
 import { CardItem } from '../components/CardItem';
 import { Trainer } from '../components/Trainer';
-import type { Card } from '../types';
+import type { Card } from '../entities/card';
 
 export function DeckPage() {
   const { id } = useParams();

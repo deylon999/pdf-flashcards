@@ -28,4 +28,4 @@ class DeckRead(DeckBase):
 
 
 class DeckWithCards(DeckRead):
-    cards: list[CardRead] = []
+    cards: list[CardRead] = Field(default_factory=list)

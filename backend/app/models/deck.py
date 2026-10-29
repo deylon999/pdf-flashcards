@@ -20,4 +20,5 @@ class Deck(Base):
     cards: Mapped[list["Card"]] = relationship(
         back_populates="deck",
         cascade="all, delete-orphan",
+        order_by="Card.id",
     )

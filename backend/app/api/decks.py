@@ -11,7 +11,7 @@ from app.schemas import DeckCreate, DeckRead, DeckUpdate, DeckWithCards
 router = APIRouter(prefix="/decks", tags=["decks"])
 
 
-@router.get("", response_model=list[DeckRead])
+@router.get("", response_model=list[DeckWithCards])
 def read_decks(db: Session = Depends(get_db), user: User = Depends(get_current_user)):
     return crud.get_decks(db, user.id)
 

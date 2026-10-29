@@ -1,12 +1,16 @@
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from app.models import Deck
 from app.schemas import DeckCreate, DeckUpdate
 
 
 def get_decks(db: Session, owner_id: int) -> list[Deck]:
-    return list(db.scalars(select(Deck).where(Deck.owner_id == owner_id).order_by(Deck.id)))
+    query = (
+        select(Deck).where(Deck.owner_id == owner_id)
+        .options(selectinload(Deck.cards)).order_by(Deck.id)
+    )
+    return list(db.scalars(query))
 
 
 def get_deck(db: Session, deck_id: int) -> Deck | None:

@@ -28,3 +28,9 @@ export async function createDeck(title: string, description: string): Promise<De
   });
   return { ...deck, id: String(deck.id), cards: [] };
 }
+
+export function updateDeck(deckId: string, title: string, description: string) {
+  return apiRequest<{ id: number; title: string; description: string }>(`/decks/${deckId}`, {
+    method: 'PATCH', body: JSON.stringify({ title, description }),
+  });
+}

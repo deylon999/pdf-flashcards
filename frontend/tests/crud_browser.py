@@ -49,6 +49,18 @@ with sync_playwright() as p:
     expect(page.get_by_role("heading", name="Из интерфейса", exact=True)).to_be_visible()
     stored_decks = page.request.get(base + "/api/decks", headers=headers).json()
     assert len([item for item in stored_decks if item["title"] == "Из интерфейса"]) == 1
+
+    created = next(item for item in stored_decks if item["title"] == "Из интерфейса")
+    page.goto(base + f"/decks/{created['id']}")
+    expect(page.get_by_role("heading", name="Из интерфейса", exact=True)).to_be_visible()
+    page.get_by_role("button", name="Редактировать колоду", exact=True).click()
+    page.get_by_label("Название колоды", exact=True).fill("Переименованная колода")
+    page.get_by_label("Описание", exact=True).fill("Новое описание")
+    page.get_by_role("button", name="Сохранить", exact=True).click()
+    expect(page.get_by_role("heading", name="Переименованная колода", exact=True)).to_be_visible()
+    page.reload()
+    expect(page.get_by_role("heading", name="Переименованная колода", exact=True)).to_be_visible()
+    expect(page.get_by_text("Новое описание", exact=True)).to_be_visible()
     assert not errors, errors
-    print("Чтение PostgreSQL и создание колоды через интерфейс, сохранение и повтор после ошибки — OK")
+    print("Чтение PostgreSQL, создание и редактирование колоды через интерфейс — OK")
     browser.close()

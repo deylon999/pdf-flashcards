@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useRef, useState, type ReactNode } from 'react';
 import { getErrorMessage, type LoadStatus } from '@/shared/api';
-import { createDeck, fetchDecks } from '../api/deckApi';
+import { createDeck, fetchDecks, updateDeck } from '../api/deckApi';
 import { DecksContext, type DecksContextValue } from './DecksContext';
 import { decksReducer } from './decksReducer';
 
@@ -46,6 +46,10 @@ export function DecksProvider({ children, active }: Props) {
     addDeck: async (title, description) => {
       const deck = await createDeck(title, description);
       dispatch({ type: 'addDeck', deck });
+    },
+    updateDeck: async (deckId, title, description) => {
+      const updated = await updateDeck(deckId, title, description);
+      dispatch({ type: 'updateDeck', deckId, title: updated.title, description: updated.description });
     },
     addCard: (deckId, question, answer) =>
       dispatch({

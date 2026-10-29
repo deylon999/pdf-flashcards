@@ -4,6 +4,7 @@ import { Box, Button, Typography } from '@mui/material';
 import { useDecks } from '@/entities/deck';
 import { CardView } from '@/entities/card';
 import { CardForm } from '@/features/add-card';
+import { EditDeckForm } from '@/features/edit-deck';
 import { Trainer } from '@/features/train-deck';
 import { ToggleLearnedButton } from '@/features/toggle-learned';
 import { RemoveCardButton } from '@/features/remove-card';
@@ -12,7 +13,7 @@ import { AnimatedItem, EmptyState, ErrorMessage, Loader, NotFoundMessage, Toggle
 export function DeckPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { decks, status, error, reload, addCard, toggleLearned, removeCard } = useDecks();
+  const { decks, status, error, reload, updateDeck, addCard, toggleLearned, removeCard } = useDecks();
   // карточки, которые сейчас сворачиваются перед удалением
   const [leavingIds, setLeavingIds] = useState<string[]>([]);
   const deck = decks.find(deck => deck.id === id);
@@ -42,6 +43,11 @@ export function DeckPage() {
       <Typography color="text.secondary" gutterBottom>
         {deck.description}
       </Typography>
+      <ToggleSection openLabel="Редактировать колоду">
+        <EditDeckForm deck={deck}
+          existingTitles={decks.filter(item => item.id !== deck.id).map(item => item.title)}
+          onSave={(title, description) => updateDeck(deck.id, title, description)} />
+      </ToggleSection>
       <Trainer key={id} cards={cards} />
       <ToggleSection openLabel="Добавить карточку">
         <CardForm

@@ -28,6 +28,11 @@ export const theme = createTheme({
   },
   shape: { borderRadius: 14 },
   components: {
+    MuiTypography: {
+      styleOverrides: {
+        root: { overflowWrap: 'anywhere' },
+      },
+    },
     MuiButton: {
       defaultProps: { disableElevation: true },
       styleOverrides: {

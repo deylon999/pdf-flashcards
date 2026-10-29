@@ -34,9 +34,9 @@ with sync_playwright() as p:
 
     page.get_by_role("link", name="Главная", exact=True).click()
     page.get_by_role("button", name="Новая колода", exact=True).click()
-    page.get_by_label("Название колоды", exact=True).fill("Только в этой сессии")
+    page.get_by_label("Название колоды", exact=True).fill("Колода первого пользователя")
     page.get_by_role("button", name="Создать", exact=True).click()
-    expect(page.get_by_text("Только в этой сессии", exact=True)).to_be_visible()
+    expect(page.get_by_text("Колода первого пользователя", exact=True)).to_be_visible()
 
     # При ошибке сервера выход можно повторить; интерфейс не сообщает об успешном выходе.
     page.route("**/api/auth/logout", lambda route: route.abort())
@@ -52,12 +52,12 @@ with sync_playwright() as p:
     page.get_by_role("button", name="Создать аккаунт", exact=True).click()
     expect(page.get_by_role("alert")).to_contain_text("Этот логин уже занят")
 
-    # Другой аккаунт не получает локальные данные предыдущего пользователя.
+    # Другой аккаунт не получает данные предыдущего пользователя из PostgreSQL.
     second_username = "other_" + token_hex(4)
     page.get_by_label("Логин", exact=True).fill(second_username)
     page.get_by_role("button", name="Создать аккаунт", exact=True).click()
     expect(page.get_by_role("heading", name="Мои колоды", exact=True)).to_be_visible()
-    expect(page.get_by_text("Только в этой сессии", exact=True)).to_have_count(0)
+    expect(page.get_by_text("Колода первого пользователя", exact=True)).to_have_count(0)
 
     # Недоступный сервер при восстановлении сессии даёт возможность повторить запрос.
     page.route("**/api/auth/refresh", lambda route: route.abort())
@@ -84,6 +84,7 @@ with sync_playwright() as p:
     page.get_by_label("Пароль", exact=True).fill("browser-password123")
     page.get_by_role("button", name="Войти", exact=True).click()
     expect(page.get_by_role("heading", name="Мои колоды", exact=True)).to_be_visible()
+    expect(page.get_by_text("Колода первого пользователя", exact=True)).to_be_visible()
     page.get_by_role("link", name="Статистика", exact=True).click()
     expect(page.get_by_role("heading", name="Статистика", exact=True)).to_be_visible()
     refresh = next(cookie for cookie in page.context.cookies() if cookie["name"] == "refresh_token")

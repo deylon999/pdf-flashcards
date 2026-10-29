@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useRef, useState, type ReactNode } from 'react';
 import { getErrorMessage, type LoadStatus } from '@/shared/api';
-import { createCard, updateCard as updateCardRequest } from '@/entities/card';
+import { createCard, deleteCard, updateCard as updateCardRequest } from '@/entities/card';
 import { createDeck, deleteDeck, fetchDecks, updateDeck } from '../api/deckApi';
 import { DecksContext, type DecksContextValue } from './DecksContext';
 import { decksReducer } from './decksReducer';
@@ -64,8 +64,14 @@ export function DecksProvider({ children, active }: Props) {
       const card = await updateCardRequest(cardId, { question, answer });
       dispatch({ type: 'replaceCard', deckId, card });
     },
-    toggleLearned: (deckId, cardId) => dispatch({ type: 'toggleLearned', deckId, cardId }),
-    removeCard: (deckId, cardId) => dispatch({ type: 'removeCard', deckId, cardId }),
+    toggleLearned: async (deckId, cardId, learned) => {
+      const card = await updateCardRequest(cardId, { learned });
+      dispatch({ type: 'replaceCard', deckId, card });
+    },
+    removeCard: async (deckId, cardId) => {
+      await deleteCard(cardId);
+      dispatch({ type: 'removeCard', deckId, cardId });
+    },
   };
 
   return <DecksContext.Provider value={value}>{children}</DecksContext.Provider>;

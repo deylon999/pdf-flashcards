@@ -12,8 +12,8 @@ export type DecksContextValue = {
   removeDeck: (deckId: string) => Promise<void>;
   addCard: (deckId: string, question: string, answer: string) => Promise<void>;
   updateCard: (deckId: string, cardId: string, question: string, answer: string) => Promise<void>;
-  toggleLearned: (deckId: string, cardId: string) => void;
-  removeCard: (deckId: string, cardId: string) => void;
+  toggleLearned: (deckId: string, cardId: string, learned: boolean) => Promise<void>;
+  removeCard: (deckId: string, cardId: string) => Promise<void>;
 };
 
 export const DecksContext = createContext<DecksContextValue | null>(null);

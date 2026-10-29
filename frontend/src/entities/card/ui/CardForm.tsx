@@ -57,39 +57,39 @@ export function CardForm({ existingQuestions, onSave, initialValues = emptyValue
 
   return (
     <>
-    {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-    <Box
-      component="form"
-      noValidate
-      onSubmit={handleSubmit}
-      sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'flex-start', gap: 2, mb: 3 }}
-    >
-      <TextField
-        label="Вопрос"
-        size="small"
-        value={values.question}
-        disabled={busy}
-        onChange={e => change('question', e.target.value)}
-        onBlur={() => setTouched({ ...touched, question: true })}
-        error={Boolean(questionError)}
-        helperText={questionError ?? `${values.question.trim().length}/${MAX_LENGTH}`}
-        sx={{ flex: 1, minWidth: 200 }}
-      />
-      <TextField
-        label="Ответ"
-        size="small"
-        value={values.answer}
-        disabled={busy}
-        onChange={e => change('answer', e.target.value)}
-        onBlur={() => setTouched({ ...touched, answer: true })}
-        error={Boolean(answerError)}
-        helperText={answerError ?? `${values.answer.trim().length}/${MAX_LENGTH}`}
-        sx={{ flex: 1, minWidth: 200 }}
-      />
-      <Button type="submit" variant="contained" disabled={busy || (submitted && hasErrors)}>
-        {busy ? 'Сохраняем…' : submitLabel}
-      </Button>
-    </Box>
+      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+      <Box
+        component="form"
+        noValidate
+        onSubmit={handleSubmit}
+        sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'flex-start', gap: 2, mb: 3 }}
+      >
+        <TextField
+          label="Вопрос"
+          size="small"
+          value={values.question}
+          disabled={busy}
+          onChange={e => change('question', e.target.value)}
+          onBlur={() => setTouched({ ...touched, question: true })}
+          error={Boolean(questionError)}
+          helperText={questionError ?? `${values.question.trim().length}/${MAX_LENGTH}`}
+          sx={{ flex: 1, minWidth: 200 }}
+        />
+        <TextField
+          label="Ответ"
+          size="small"
+          value={values.answer}
+          disabled={busy}
+          onChange={e => change('answer', e.target.value)}
+          onBlur={() => setTouched({ ...touched, answer: true })}
+          error={Boolean(answerError)}
+          helperText={answerError ?? `${values.answer.trim().length}/${MAX_LENGTH}`}
+          sx={{ flex: 1, minWidth: 200 }}
+        />
+        <Button type="submit" variant="contained" disabled={busy || (submitted && hasErrors)}>
+          {busy ? 'Сохраняем…' : submitLabel}
+        </Button>
+      </Box>
     </>
   );
 }

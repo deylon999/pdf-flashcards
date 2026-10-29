@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
 import { useDecks } from '@/entities/deck';
@@ -16,8 +15,6 @@ export function DeckPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { decks, status, error, reload, updateDeck, removeDeck, addCard, updateCard, toggleLearned, removeCard } = useDecks();
-  // карточки, которые сейчас сворачиваются перед удалением
-  const [leavingIds, setLeavingIds] = useState<string[]>([]);
   const deck = decks.find(deck => deck.id === id);
 
   if (status === 'loading') {
@@ -54,7 +51,7 @@ export function DeckPage() {
           existingTitles={decks.filter(item => item.id !== deck.id).map(item => item.title)}
           onSave={(title, description) => updateDeck(deck.id, title, description)} />
       </ToggleSection>
-      <Trainer key={id} cards={cards} />
+      <Trainer key={`${id}:${cards.map(card => card.id).join(',')}`} cards={cards} />
       <ToggleSection openLabel="Добавить карточку">
         <CardForm
           existingQuestions={cards.map(card => card.question)}
@@ -65,14 +62,7 @@ export function DeckPage() {
         <EmptyState>Тут пусто, добавь первую карточку</EmptyState>
       ) : (
         cards.map(card => (
-          <AnimatedItem
-            key={card.id}
-            leaving={leavingIds.includes(card.id)}
-            onLeft={() => {
-              removeCard(deck.id, card.id);
-              setLeavingIds(ids => ids.filter(leavingId => leavingId !== card.id));
-            }}
-          >
+          <AnimatedItem key={card.id}>
             <CardView
               card={card}
               actions={
@@ -80,8 +70,8 @@ export function DeckPage() {
                   <EditCardButton card={card}
                     existingQuestions={cards.filter(item => item.id !== card.id).map(item => item.question)}
                     onSave={(question, answer) => updateCard(deck.id, card.id, question, answer)} />
-                  <ToggleLearnedButton learned={card.learned} onToggle={() => toggleLearned(deck.id, card.id)} />
-                  <RemoveCardButton onRemove={() => setLeavingIds(ids => [...ids, card.id])} />
+                  <ToggleLearnedButton learned={card.learned} onToggle={() => toggleLearned(deck.id, card.id, !card.learned)} />
+                  <RemoveCardButton onRemove={() => removeCard(deck.id, card.id)} />
                 </Box>
               }
             />

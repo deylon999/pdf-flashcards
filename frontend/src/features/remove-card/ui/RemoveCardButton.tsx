@@ -1,13 +1,10 @@
-import { Button } from '@mui/material';
+import { ConfirmActionButton } from '@/shared/ui';
 
 type Props = {
-  onRemove: () => void;
+  onRemove: () => Promise<void>;
 };
 
 export function RemoveCardButton({ onRemove }: Props) {
-  return (
-    <Button size="small" color="error" onClick={onRemove}>
-      Удалить
-    </Button>
-  );
+  return <ConfirmActionButton label="Удалить" title="Удалить карточку?"
+    description="Карточка будет удалена из колоды и статистики." onConfirm={onRemove} />;
 }

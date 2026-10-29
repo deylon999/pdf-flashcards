@@ -62,39 +62,39 @@ export function DeckForm({ existingTitles, onSave, initialValues = emptyValues,
 
   return (
     <>
-    {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-    <Box
-      component="form"
-      noValidate
-      onSubmit={handleSubmit}
-      sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'flex-start', gap: 2, mb: 3 }}
-    >
-      <TextField
-        label="Название колоды"
-        size="small"
-        value={values.title}
-        disabled={busy}
-        onChange={e => change('title', e.target.value)}
-        onBlur={() => setTouched({ ...touched, title: true })}
-        error={Boolean(titleError)}
-        helperText={titleError ?? `${values.title.trim().length}/${TITLE_MAX_LENGTH}`}
-        sx={{ flex: 1, minWidth: 200 }}
-      />
-      <TextField
-        label="Описание"
-        size="small"
-        value={values.description}
-        disabled={busy}
-        onChange={e => change('description', e.target.value)}
-        onBlur={() => setTouched({ ...touched, description: true })}
-        error={Boolean(descriptionError)}
-        helperText={descriptionError ?? `${values.description.trim().length}/${DESCRIPTION_MAX_LENGTH}`}
-        sx={{ flex: 1, minWidth: 200 }}
-      />
-      <Button type="submit" variant="contained" disabled={busy || (submitted && hasErrors)}>
-        {busy ? 'Сохраняем…' : submitLabel}
-      </Button>
-    </Box>
+      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+      <Box
+        component="form"
+        noValidate
+        onSubmit={handleSubmit}
+        sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'flex-start', gap: 2, mb: 3 }}
+      >
+        <TextField
+          label="Название колоды"
+          size="small"
+          value={values.title}
+          disabled={busy}
+          onChange={e => change('title', e.target.value)}
+          onBlur={() => setTouched({ ...touched, title: true })}
+          error={Boolean(titleError)}
+          helperText={titleError ?? `${values.title.trim().length}/${TITLE_MAX_LENGTH}`}
+          sx={{ flex: 1, minWidth: 200 }}
+        />
+        <TextField
+          label="Описание"
+          size="small"
+          value={values.description}
+          disabled={busy}
+          onChange={e => change('description', e.target.value)}
+          onBlur={() => setTouched({ ...touched, description: true })}
+          error={Boolean(descriptionError)}
+          helperText={descriptionError ?? `${values.description.trim().length}/${DESCRIPTION_MAX_LENGTH}`}
+          sx={{ flex: 1, minWidth: 200 }}
+        />
+        <Button type="submit" variant="contained" disabled={busy || (submitted && hasErrors)}>
+          {busy ? 'Сохраняем…' : submitLabel}
+        </Button>
+      </Box>
     </>
   );
 }

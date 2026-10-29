@@ -2,6 +2,11 @@ let accessToken: string | null = null;
 let refreshPromise: Promise<void> | null = null;
 let onUnauthorized: (() => void) | null = null;
 
+const fieldLabels: Record<string, string> = {
+  title: 'Название', description: 'Описание', question: 'Вопрос', answer: 'Ответ',
+  username: 'Логин', password: 'Пароль', learned: 'Отметка выучено',
+};
+
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
     super(message);
@@ -25,11 +30,18 @@ async function readResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const data = await response.json().catch(() => null);
     const detail = data?.detail;
-    let message = 'Не удалось выполнить запрос';
+    const statusMessages: Record<number, string> = {
+      401: 'Сессия истекла. Войдите снова',
+      403: 'У вас нет доступа к этим данным',
+      404: 'Запись не найдена. Обновите страницу',
+      422: 'Проверьте заполненные поля',
+    };
+    let message = statusMessages[response.status] ?? 'Не удалось выполнить запрос. Попробуйте ещё раз';
     if (typeof detail === 'string') {
       message = detail;
     } else if (Array.isArray(detail)) {
-      message = detail.map((error: { field: string; message: string }) => `${error.field}: ${error.message}`).join('; ');
+      message = detail.map((error: { field: string; message: string }) =>
+        `${fieldLabels[error.field] ?? error.field}: ${error.message}`).join('; ');
     }
     throw new ApiError(response.status, message);
   }

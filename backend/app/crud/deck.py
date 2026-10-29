@@ -5,16 +5,16 @@ from app.models import Deck
 from app.schemas import DeckCreate, DeckUpdate
 
 
-def get_decks(db: Session) -> list[Deck]:
-    return list(db.scalars(select(Deck).order_by(Deck.id)))
+def get_decks(db: Session, owner_id: int) -> list[Deck]:
+    return list(db.scalars(select(Deck).where(Deck.owner_id == owner_id).order_by(Deck.id)))
 
 
 def get_deck(db: Session, deck_id: int) -> Deck | None:
     return db.get(Deck, deck_id)
 
 
-def create_deck(db: Session, data: DeckCreate) -> Deck:
-    deck = Deck(**data.model_dump())
+def create_deck(db: Session, data: DeckCreate, owner_id: int) -> Deck:
+    deck = Deck(**data.model_dump(), owner_id=owner_id)
     db.add(deck)
     db.commit()
     db.refresh(deck)

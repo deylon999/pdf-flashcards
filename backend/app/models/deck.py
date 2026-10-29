@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import String
+from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.database import Base
@@ -15,6 +15,7 @@ class Deck(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(100))
     description: Mapped[str] = mapped_column(String(300), default="")
+    owner_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
 
     cards: Mapped[list["Card"]] = relationship(
         back_populates="deck",

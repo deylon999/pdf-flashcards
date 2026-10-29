@@ -3,6 +3,7 @@ import os
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine, event
+from sqlalchemy.engine import make_url
 from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
 
@@ -20,17 +21,24 @@ from app.main import app
 
 @pytest.fixture()
 def db():
-    engine = create_engine(
-        "sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool
-    )
+    database_url = os.environ.get("TEST_DATABASE_URL")
+    if database_url:
+        if not (make_url(database_url).database or "").endswith("_test"):
+            raise ValueError("Для тестов нужна отдельная БД с именем, оканчивающимся на _test")
+        engine = create_engine(database_url)
+    else:
+        engine = create_engine(
+            "sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool
+        )
 
-    @event.listens_for(engine, "connect")
-    def enable_foreign_keys(connection, _):
-        connection.execute("PRAGMA foreign_keys=ON")
+        @event.listens_for(engine, "connect")
+        def enable_foreign_keys(connection, _):
+            connection.execute("PRAGMA foreign_keys=ON")
 
     Base.metadata.create_all(engine)
     with Session(engine) as session:
         yield session
+    Base.metadata.drop_all(engine)
     engine.dispose()
 
 

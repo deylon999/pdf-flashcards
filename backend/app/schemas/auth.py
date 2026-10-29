@@ -11,3 +11,8 @@ class UserRead(BaseModel):
 
     id: int
     username: str
+
+
+class AccessToken(BaseModel):
+    access_token: str
+    token_type: str = "bearer"

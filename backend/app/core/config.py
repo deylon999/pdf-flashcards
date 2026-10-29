@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     jwt_secret: str = Field(min_length=32)
     access_token_minutes: int = Field(default=15, gt=0)
     refresh_token_days: int = Field(default=7, gt=0)
+    cookie_secure: bool = False
 
     @property
     def database_url(self) -> str:

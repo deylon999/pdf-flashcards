@@ -30,6 +30,25 @@ with sync_playwright() as p:
     expect(page.get_by_text("Карточка 1 из 1", exact=True)).to_be_visible()
     page.get_by_role("link", name="Статистика", exact=True).click()
     expect(page.get_by_text("Выучено 0 из 1 карточек", exact=True)).to_be_visible()
+
+    page.get_by_role("link", name="Главная", exact=True).click()
+    page.get_by_role("button", name="Новая колода", exact=True).click()
+    page.get_by_label("Название колоды", exact=True).fill("Из интерфейса")
+    page.get_by_label("Описание", exact=True).fill("Сохранится после перезагрузки")
+    page.route("**/api/decks", lambda route: route.fulfill(
+        status=500, json={"detail": "Тестовая ошибка сохранения"},
+    ) if route.request.method == "POST" else route.continue_())
+    page.get_by_role("button", name="Создать", exact=True).click()
+    expect(page.get_by_role("alert")).to_contain_text("Тестовая ошибка сохранения")
+    expect(page.get_by_label("Название колоды", exact=True)).to_have_value("Из интерфейса")
+    page.unroute("**/api/decks")
+    page.get_by_role("button", name="Создать", exact=True).click()
+    expect(page.get_by_role("heading", name="Из интерфейса", exact=True)).to_be_visible()
+    expect(page.get_by_label("Название колоды", exact=True)).to_have_value("")
+    page.reload()
+    expect(page.get_by_role("heading", name="Из интерфейса", exact=True)).to_be_visible()
+    stored_decks = page.request.get(base + "/api/decks", headers=headers).json()
+    assert len([item for item in stored_decks if item["title"] == "Из интерфейса"]) == 1
     assert not errors, errors
-    print("Чтение PostgreSQL через интерфейс: пустой список, колода, карточки и статистика — OK")
+    print("Чтение PostgreSQL и создание колоды через интерфейс, сохранение и повтор после ошибки — OK")
     browser.close()

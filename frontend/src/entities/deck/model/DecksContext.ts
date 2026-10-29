@@ -7,7 +7,7 @@ export type DecksContextValue = {
   status: LoadStatus;
   error: string;
   reload: () => void;
-  addDeck: (title: string, description: string) => void;
+  addDeck: (title: string, description: string) => Promise<void>;
   addCard: (deckId: string, question: string, answer: string) => void;
   toggleLearned: (deckId: string, cardId: string) => void;
   removeCard: (deckId: string, cardId: string) => void;

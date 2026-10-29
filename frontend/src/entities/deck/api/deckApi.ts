@@ -21,3 +21,10 @@ export async function fetchDecks(): Promise<Deck[]> {
     cards: deck.cards.map(card => ({ ...card, id: String(card.id) })),
   }));
 }
+
+export async function createDeck(title: string, description: string): Promise<Deck> {
+  const deck = await apiRequest<{ id: number; title: string; description: string }>('/decks', {
+    method: 'POST', body: JSON.stringify({ title, description }),
+  });
+  return { ...deck, id: String(deck.id), cards: [] };
+}

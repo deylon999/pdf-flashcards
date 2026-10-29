@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useRef, useState, type ReactNode } from 'react';
 import { getErrorMessage, type LoadStatus } from '@/shared/api';
+import { createCard } from '@/entities/card';
 import { createDeck, deleteDeck, fetchDecks, updateDeck } from '../api/deckApi';
 import { DecksContext, type DecksContextValue } from './DecksContext';
 import { decksReducer } from './decksReducer';
@@ -55,12 +56,10 @@ export function DecksProvider({ children, active }: Props) {
       await deleteDeck(deckId);
       dispatch({ type: 'removeDeck', deckId });
     },
-    addCard: (deckId, question, answer) =>
-      dispatch({
-        type: 'addCard',
-        deckId,
-        card: { id: String(Date.now()), question, answer, learned: false },
-      }),
+    addCard: async (deckId, question, answer) => {
+      const card = await createCard(deckId, question, answer);
+      dispatch({ type: 'addCard', deckId, card });
+    },
     toggleLearned: (deckId, cardId) => dispatch({ type: 'toggleLearned', deckId, cardId }),
     removeCard: (deckId, cardId) => dispatch({ type: 'removeCard', deckId, cardId }),
   };

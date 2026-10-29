@@ -79,6 +79,26 @@ with sync_playwright() as p:
     expect(page.get_by_role("heading", name="Проверка API", exact=True)).to_be_visible()
     expect(page.get_by_role("heading", name="Переименованная колода", exact=True)).to_have_count(0)
     assert page.request.get(base + f"/api/decks/{created['id']}", headers=headers).status == 404
+
+    page.goto(base + f"/decks/{deck['id']}")
+    expect(page.get_by_role("heading", name="Проверка API", exact=True)).to_be_visible()
+    page.get_by_role("button", name="Добавить карточку", exact=True).click()
+    page.get_by_label("Вопрос", exact=True).fill("bridge")
+    page.get_by_label("Ответ", exact=True).fill("мост")
+    page.route(f"**/api/decks/{deck['id']}/cards", lambda route: route.fulfill(
+        status=500, json={"detail": "Не удалось сохранить карточку"},
+    ))
+    page.get_by_role("button", name="Добавить", exact=True).click()
+    expect(page.get_by_role("alert")).to_contain_text("Не удалось сохранить карточку")
+    expect(page.get_by_label("Вопрос", exact=True)).to_have_value("bridge")
+    page.unroute(f"**/api/decks/{deck['id']}/cards")
+    page.get_by_role("button", name="Добавить", exact=True).click()
+    expect(page.get_by_role("heading", name="bridge", exact=True)).to_be_visible()
+    page.reload()
+    expect(page.get_by_role("heading", name="bridge", exact=True)).to_be_visible()
+    stored_cards = page.request.get(base + f"/api/decks/{deck['id']}/cards", headers=headers).json()
+    assert len(stored_cards) == 2
+    card = next(item for item in stored_cards if item["question"] == "bridge")
     assert not errors, errors
-    print("Чтение PostgreSQL и CRUD колод через интерфейс — OK")
+    print("CRUD колод и создание карточки через интерфейс, сохранность после перезагрузки — OK")
     browser.close()

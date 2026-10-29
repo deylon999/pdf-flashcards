@@ -1,17 +1,23 @@
-import { delay } from '@/shared/lib';
+import { apiRequest } from '@/shared/api';
 import type { Deck } from '../model/types';
-import { decks } from './mock';
 
-// Пока нет подключения к backend, данные отдаются из моков с задержкой.
-// Для проверки состояний: ?fail в адресе — ошибка загрузки, ?empty — пустой список.
+type DeckResponse = {
+  id: number;
+  title: string;
+  description: string;
+  cards: {
+    id: number;
+    question: string;
+    answer: string;
+    learned: boolean;
+  }[];
+};
+
 export async function fetchDecks(): Promise<Deck[]> {
-  await delay(600);
-  const params = new URLSearchParams(window.location.search);
-  if (params.has('fail')) {
-    throw new Error('Не удалось загрузить колоды');
-  }
-  if (params.has('empty')) {
-    return [];
-  }
-  return structuredClone(decks);
+  const decks = await apiRequest<DeckResponse[]>('/decks');
+  return decks.map(deck => ({
+    ...deck,
+    id: String(deck.id),
+    cards: deck.cards.map(card => ({ ...card, id: String(card.id) })),
+  }));
 }

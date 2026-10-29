@@ -4,7 +4,7 @@ import { percent } from '@/shared/lib';
 import { EmptyState, ErrorMessage, Loader } from '@/shared/ui';
 
 export function StatsPage() {
-  const { decks, status, reload } = useDecks();
+  const { decks, status, error, reload } = useDecks();
   const total = decks.reduce((sum, deck) => sum + deck.cards.length, 0);
   const learned = decks.reduce((sum, deck) => sum + deck.cards.filter(card => card.learned).length, 0);
 
@@ -14,7 +14,7 @@ export function StatsPage() {
         Статистика
       </Typography>
       {status === 'loading' && <Loader text="Считаем статистику…" />}
-      {status === 'error' && <ErrorMessage text="Не удалось загрузить статистику" onRetry={reload} />}
+      {status === 'error' && <ErrorMessage text={error} onRetry={reload} />}
       {status === 'ready' && total === 0 && <EmptyState>Пока нечего считать — нет ни одной карточки</EmptyState>}
       {status === 'ready' && total > 0 && <StatsContent decks={decks} learned={learned} total={total} />}
     </>

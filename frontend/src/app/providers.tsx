@@ -24,5 +24,5 @@ export function Providers({ children }: Props) {
 
 function UserDecks({ children }: Props) {
   const { user } = useAuth();
-  return <DecksProvider key={user?.id ?? 'guest'}>{children}</DecksProvider>;
+  return <DecksProvider key={user?.id ?? 'guest'} active={Boolean(user)}>{children}</DecksProvider>;
 }

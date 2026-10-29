@@ -5,6 +5,7 @@ import type { Deck } from './types';
 export type DecksContextValue = {
   decks: Deck[];
   status: LoadStatus;
+  error: string;
   reload: () => void;
   addDeck: (title: string, description: string) => void;
   addCard: (deckId: string, question: string, answer: string) => void;

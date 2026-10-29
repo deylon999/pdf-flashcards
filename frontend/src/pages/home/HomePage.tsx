@@ -4,7 +4,7 @@ import { CreateDeckForm } from '@/features/create-deck';
 import { ErrorMessage, Loader, ToggleSection } from '@/shared/ui';
 
 export function HomePage() {
-  const { decks, status, reload, addDeck } = useDecks();
+  const { decks, status, error, reload, addDeck } = useDecks();
 
   return (
     <>
@@ -12,7 +12,7 @@ export function HomePage() {
         Мои колоды
       </Typography>
       {status === 'loading' && <Loader text="Загружаем колоды…" />}
-      {status === 'error' && <ErrorMessage text="Не удалось загрузить колоды" onRetry={reload} />}
+      {status === 'error' && <ErrorMessage text={error} onRetry={reload} />}
       {status === 'ready' && (
         <>
           <ToggleSection openLabel="Новая колода">

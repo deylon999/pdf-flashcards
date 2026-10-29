@@ -12,7 +12,7 @@ import { AnimatedItem, EmptyState, ErrorMessage, Loader, NotFoundMessage, Toggle
 export function DeckPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { decks, status, reload, addCard, toggleLearned, removeCard } = useDecks();
+  const { decks, status, error, reload, addCard, toggleLearned, removeCard } = useDecks();
   // карточки, которые сейчас сворачиваются перед удалением
   const [leavingIds, setLeavingIds] = useState<string[]>([]);
   const deck = decks.find(deck => deck.id === id);
@@ -22,7 +22,7 @@ export function DeckPage() {
   }
 
   if (status === 'error') {
-    return <ErrorMessage text="Не удалось загрузить колоду" onRetry={reload} />;
+    return <ErrorMessage text={error} onRetry={reload} />;
   }
 
   if (!deck) {

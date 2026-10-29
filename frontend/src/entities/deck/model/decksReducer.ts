@@ -7,6 +7,7 @@ export type DecksAction =
   | { type: 'updateDeck'; deckId: string; title: string; description: string }
   | { type: 'removeDeck'; deckId: string }
   | { type: 'addCard'; deckId: string; card: Card }
+  | { type: 'replaceCard'; deckId: string; card: Card }
   | { type: 'toggleLearned'; deckId: string; cardId: string }
   | { type: 'removeCard'; deckId: string; cardId: string };
 
@@ -27,6 +28,9 @@ export function decksReducer(decks: Deck[], action: DecksAction): Deck[] {
       return decks.filter(deck => deck.id !== action.deckId);
     case 'addCard':
       return updateCards(decks, action.deckId, cards => [...cards, action.card]);
+    case 'replaceCard':
+      return updateCards(decks, action.deckId, cards =>
+        cards.map(card => card.id === action.card.id ? action.card : card));
     case 'toggleLearned':
       return updateCards(decks, action.deckId, cards =>
         cards.map(card => (card.id === action.cardId ? { ...card, learned: !card.learned } : card))

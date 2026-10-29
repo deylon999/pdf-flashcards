@@ -6,6 +6,7 @@ import { CardView } from '@/entities/card';
 import { CardForm } from '@/features/add-card';
 import { EditDeckForm } from '@/features/edit-deck';
 import { RemoveDeckButton } from '@/features/remove-deck';
+import { EditCardButton } from '@/features/edit-card';
 import { Trainer } from '@/features/train-deck';
 import { ToggleLearnedButton } from '@/features/toggle-learned';
 import { RemoveCardButton } from '@/features/remove-card';
@@ -14,7 +15,7 @@ import { AnimatedItem, EmptyState, ErrorMessage, Loader, NotFoundMessage, Toggle
 export function DeckPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { decks, status, error, reload, updateDeck, removeDeck, addCard, toggleLearned, removeCard } = useDecks();
+  const { decks, status, error, reload, updateDeck, removeDeck, addCard, updateCard, toggleLearned, removeCard } = useDecks();
   // карточки, которые сейчас сворачиваются перед удалением
   const [leavingIds, setLeavingIds] = useState<string[]>([]);
   const deck = decks.find(deck => deck.id === id);
@@ -75,7 +76,10 @@ export function DeckPage() {
             <CardView
               card={card}
               actions={
-                <Box sx={{ display: 'flex', gap: 1 }}>
+                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                  <EditCardButton card={card}
+                    existingQuestions={cards.filter(item => item.id !== card.id).map(item => item.question)}
+                    onSave={(question, answer) => updateCard(deck.id, card.id, question, answer)} />
                   <ToggleLearnedButton learned={card.learned} onToggle={() => toggleLearned(deck.id, card.id)} />
                   <RemoveCardButton onRemove={() => setLeavingIds(ids => [...ids, card.id])} />
                 </Box>

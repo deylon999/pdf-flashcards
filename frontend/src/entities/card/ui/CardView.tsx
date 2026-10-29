@@ -23,7 +23,7 @@ export function CardView({ card, actions }: Props) {
   const [flipped, setFlipped] = useState(false);
 
   return (
-    <Card variant="outlined" sx={{ mb: 2, cursor: 'pointer' }} onClick={() => setFlipped(!flipped)}>
+    <Card data-testid={`card-${card.id}`} variant="outlined" sx={{ mb: 2, cursor: 'pointer' }} onClick={() => setFlipped(!flipped)}>
       <CardContent>
         <FlipCard
           flipped={flipped}
@@ -31,7 +31,7 @@ export function CardView({ card, actions }: Props) {
           back={<Side label="Ответ" text={card.answer} />}
         />
       </CardContent>
-      <CardActions sx={{ justifyContent: 'space-between' }} onClick={e => e.stopPropagation()}>
+      <CardActions sx={{ justifyContent: 'space-between', flexWrap: 'wrap', gap: 1 }} onClick={e => e.stopPropagation()}>
         {actions}
         <Chip
           size="small"

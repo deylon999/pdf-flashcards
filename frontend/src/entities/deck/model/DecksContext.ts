@@ -11,6 +11,7 @@ export type DecksContextValue = {
   updateDeck: (deckId: string, title: string, description: string) => Promise<void>;
   removeDeck: (deckId: string) => Promise<void>;
   addCard: (deckId: string, question: string, answer: string) => Promise<void>;
+  updateCard: (deckId: string, cardId: string, question: string, answer: string) => Promise<void>;
   toggleLearned: (deckId: string, cardId: string) => void;
   removeCard: (deckId: string, cardId: string) => void;
 };

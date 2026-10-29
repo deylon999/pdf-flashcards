@@ -99,6 +99,20 @@ with sync_playwright() as p:
     stored_cards = page.request.get(base + f"/api/decks/{deck['id']}/cards", headers=headers).json()
     assert len(stored_cards) == 2
     card = next(item for item in stored_cards if item["question"] == "bridge")
+
+    page.get_by_test_id(f"card-{card['id']}").get_by_role("button", name="Редактировать карточку", exact=True).click()
+    dialog = page.get_by_role("dialog")
+    dialog.get_by_label("Вопрос", exact=True).fill("bridge updated")
+    dialog.get_by_label("Ответ", exact=True).fill("мост (изменён)")
+    dialog.get_by_role("button", name="Сохранить", exact=True).click()
+    expect(dialog).to_be_hidden()
+    page.reload()
+    expect(page.get_by_role("heading", name="bridge updated", exact=True)).to_be_visible()
+    stored_cards = page.request.get(base + f"/api/decks/{deck['id']}/cards", headers=headers).json()
+    edited = next(item for item in stored_cards if item["id"] == card["id"])
+    assert edited["question"] == "bridge updated"
+    assert edited["answer"] == "мост (изменён)"
+    assert edited["learned"] is False
     assert not errors, errors
-    print("CRUD колод и создание карточки через интерфейс, сохранность после перезагрузки — OK")
+    print("CRUD колод, создание и редактирование карточки через интерфейс — OK")
     browser.close()

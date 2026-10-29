@@ -34,3 +34,7 @@ export function updateDeck(deckId: string, title: string, description: string) {
     method: 'PATCH', body: JSON.stringify({ title, description }),
   });
 }
+
+export function deleteDeck(deckId: string): Promise<void> {
+  return apiRequest(`/decks/${deckId}`, { method: 'DELETE' });
+}

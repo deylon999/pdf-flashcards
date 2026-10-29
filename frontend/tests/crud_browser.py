@@ -61,6 +61,24 @@ with sync_playwright() as p:
     page.reload()
     expect(page.get_by_role("heading", name="Переименованная колода", exact=True)).to_be_visible()
     expect(page.get_by_text("Новое описание", exact=True)).to_be_visible()
+
+    page.get_by_role("button", name="Удалить колоду", exact=True).click()
+    dialog = page.get_by_role("dialog")
+    dialog.get_by_role("button", name="Отмена", exact=True).click()
+    expect(page.get_by_role("heading", name="Переименованная колода", exact=True)).to_be_visible()
+    page.get_by_role("button", name="Удалить колоду", exact=True).click()
+    page.route(f"**/api/decks/{created['id']}", lambda route: route.fulfill(
+        status=500, json={"detail": "Не удалось удалить колоду"},
+    ))
+    dialog.get_by_role("button", name="Удалить", exact=True).click()
+    expect(dialog.get_by_role("alert")).to_contain_text("Не удалось удалить колоду")
+    page.unroute(f"**/api/decks/{created['id']}")
+    dialog.get_by_role("button", name="Удалить", exact=True).click()
+    expect(page.get_by_role("heading", name="Мои колоды", exact=True)).to_be_visible()
+    page.reload()
+    expect(page.get_by_role("heading", name="Проверка API", exact=True)).to_be_visible()
+    expect(page.get_by_role("heading", name="Переименованная колода", exact=True)).to_have_count(0)
+    assert page.request.get(base + f"/api/decks/{created['id']}", headers=headers).status == 404
     assert not errors, errors
-    print("Чтение PostgreSQL, создание и редактирование колоды через интерфейс — OK")
+    print("Чтение PostgreSQL и CRUD колод через интерфейс — OK")
     browser.close()

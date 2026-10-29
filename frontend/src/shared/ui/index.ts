@@ -5,3 +5,4 @@ export { NotFoundMessage } from './NotFoundMessage';
 export { FlipCard } from './FlipCard';
 export { AnimatedItem } from './AnimatedItem';
 export { ToggleSection } from './ToggleSection';
+export { ConfirmActionButton } from './ConfirmActionButton';

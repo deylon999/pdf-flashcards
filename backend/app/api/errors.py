@@ -12,6 +12,7 @@ MESSAGES = {
     "int_parsing": "Должно быть целым числом",
     "json_invalid": "Некорректный JSON",
     "model_attributes_type": "Ожидается JSON-объект",
+    "string_pattern_mismatch": "Используйте латинские буквы, цифры и знак подчёркивания",
 }
 
 

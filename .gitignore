@@ -12,3 +12,4 @@ __pycache__/
 *.pyc
 .env
 *.docx
+.pytest_cache/

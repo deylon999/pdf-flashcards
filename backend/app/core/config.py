@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field
 
 
 class Settings(BaseSettings):
@@ -9,6 +10,9 @@ class Settings(BaseSettings):
     postgres_db: str
     postgres_host: str
     postgres_port: int
+    jwt_secret: str = Field(min_length=32)
+    access_token_minutes: int = Field(default=15, gt=0)
+    refresh_token_days: int = Field(default=7, gt=0)
 
     @property
     def database_url(self) -> str:
